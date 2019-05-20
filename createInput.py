@@ -14,7 +14,7 @@ args = argvs.parse_args()
 lines = args.lines
 files = args.f
 
-char6 = ['A', 'B', 'C', 'D', 'E', 'F']
+char7 = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 char2 = ['A', 'B']
 
 for count in range(0, files):
@@ -24,7 +24,7 @@ for count in range(0, files):
 		headers = [
 			'id',
 			'int3',
-			'char6',
+			'char7',
 			'char2',
 			'int4a',
 			'float8',
@@ -38,7 +38,7 @@ for count in range(0, files):
 			data = [
 				line,
 				random.randrange(999),
-				char6[random.randrange(6)],
+				char7[random.randrange(7)],
 				char2[random.randrange(2)],
 				random.randrange(4),
 				random.random()*10000*10**random.randrange(3),
