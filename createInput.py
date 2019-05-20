@@ -18,7 +18,7 @@ char7 = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 char2 = ['A', 'B']
 
 for count in range(0, files):
-	with open('input'+str(count)+'.csv', mode='w') as file:
+	with open('input_'+str(count)+'.csv', mode='w') as file:
 		csv_file = csv.writer(file)
 	
 		headers = [
