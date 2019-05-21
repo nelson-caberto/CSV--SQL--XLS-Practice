@@ -134,18 +134,16 @@ if __name__ == '__main__':
 	
 ### INIT DATABASE ###
 
-	print("INIT DATABASE...", end='')
+	print("INIT DATABASE")
 	
 	dbConnection = initializeDatabase()
 	dbCursor = dbConnection.cursor()
-
-	print("Done")
 
 ### READ CSV's to DB ###
 
 	csv_file = "input_0.csv"
 
-	print(f"Reading {csv_file} into DATABASE...", end='')
+	print(f"Reading {csv_file} into DATABASE")
 
 	sqlSTMT = """
 	INSERT INTO a (
@@ -161,12 +159,10 @@ if __name__ == '__main__':
 
 	csvDBEntry(dbCursor, csv_file, sqlSTMT)	
 	dbConnection.commit()
-	
-	print("Done")
-	
+		
 ### COMPUTE ###
 
-	print("COMPUTATIONS...", end='')
+	print("COMPUTATIONS")
 	
 	char7s = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 	char2s = ['A', 'B']
@@ -232,13 +228,11 @@ if __name__ == '__main__':
 			totals[int4a][row] = dbCursor.fetchone()[0]
 
 	dbCursor.close()
-
-	print("Done")
 	
 ### OUTPUT ###
 
 	xlsx_file = "output_0.xlsx"
-	print(f"Writing {xlsx_file}...", end='')
+	print(f"Writing {xlsx_file}")
 
 	wb = Workbook()
 	ws = wb.active
@@ -255,5 +249,3 @@ if __name__ == '__main__':
 		offset += 17
 
 	wb.save(xlsx_file)
-	
-	print("Done")
