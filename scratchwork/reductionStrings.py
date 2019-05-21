@@ -13,7 +13,7 @@ with open('reduction.csv', 'r') as file:
 		s = ''
 		for i in row:
 			s += i
-		print(int(s,2)&(1<<0)!=0)
+		print(int(s,2))
 	
 	# s = ''
 	# for i in row:

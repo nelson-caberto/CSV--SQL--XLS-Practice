@@ -123,7 +123,7 @@ def writeCell(column, row, int4a, results, totals):
 	if 281406257233920                                                                            &(1<<(lIndex))!=0: result = results[int4a]['B']['F']
 	if 1073741824                                                                                 &(1<<(lIndex))!=0: return 'N'
 	if 1073479680                                                                                 &(1<<(lIndex))!=0: result = results[int4a]['B']['G']
-	if 29635650890212029675146877239810688379576640920336595789344087638804893553131520           &(1<<(lIndex))!=0: return result[row]
+	if 29635650890212029675146877239810688379576640920336595789344087638804894626611200           &(1<<(lIndex))!=0: return result[row]
 	if 8192                                                                                       &(1<<(lIndex))!=0: return 'Total Col A-N'
 	if 4096                                                                                       &(1<<(lIndex))!=0: return 'O'
 	if 4095                                                                                       &(1<<(lIndex))!=0: total = totals[int4a]
@@ -134,12 +134,18 @@ if __name__ == '__main__':
 	
 ### INIT DATABASE ###
 
+	print("INIT DATABASE...", end='')
+	
 	dbConnection = initializeDatabase()
 	dbCursor = dbConnection.cursor()
+
+	print("Done")
 
 ### READ CSV's to DB ###
 
 	csv_file = "input_0.csv"
+
+	print(f"Reading {csv_file} into DATABASE...", end='')
 
 	sqlSTMT = """
 	INSERT INTO a (
@@ -155,10 +161,14 @@ if __name__ == '__main__':
 
 	csvDBEntry(dbCursor, csv_file, sqlSTMT)	
 	dbConnection.commit()
-		
+	
+	print("Done")
+	
 ### COMPUTE ###
 
-	char6s = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+	print("COMPUTATIONS...", end='')
+	
+	char7s = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 	char2s = ['A', 'B']
 	float8s = [
 		#[row, min, max],
@@ -192,7 +202,7 @@ if __name__ == '__main__':
 		results[int4a] = {}
 		for char2 in char2s:
 			results[int4a][char2] = {}
-			for char7 in char6s:
+			for char7 in char7s:
 				results[int4a][char2][char7] = {}
 				for (row, min, max) in float8s:
 					sqlSTMT = f'SELECT COUNT(*) FROM a WHERE int4a={int4a} AND char2="{char2}" AND char7="{char7}" AND float8 BETWEEN {min} AND {max}'
@@ -222,21 +232,28 @@ if __name__ == '__main__':
 			totals[int4a][row] = dbCursor.fetchone()[0]
 
 	dbCursor.close()
+
+	print("Done")
 	
 ### OUTPUT ###
 
-wb = Workbook()
-ws = wb.active
-offset = 0
+	xlsx_file = "output_0.xlsx"
+	print(f"Writing {xlsx_file}...", end='')
 
-cell = lambda column, row: get_column_letter(column+offset)+str(row)
+	wb = Workbook()
+	ws = wb.active
+	offset = 0
 
-for int4a in int4as:
+	cell = lambda column, row: get_column_letter(column+offset)+str(row)
 
-	for column in range(1,18):
-		for row in range(1,19):
-			ws[cell(column, row)] = writeCell(column, row, int4a, results, totals)
-			
-	offset += 17
+	for int4a in int4as:
 
-wb.save("output_0.xlsx")
+		for column in range(1,18):
+			for row in range(1,19):
+				ws[cell(column, row)] = writeCell(column, row, int4a, results, totals)
+				
+		offset += 17
+
+	wb.save(xlsx_file)
+	
+	print("Done")
